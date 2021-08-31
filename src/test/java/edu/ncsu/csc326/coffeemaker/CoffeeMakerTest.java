@@ -101,18 +101,18 @@ public class CoffeeMakerTest {
 		assertTrue(coffeeMaker.addRecipe(recipe1));
 	}
 
-//	/**
-//	 * Inventory can have only three recipe
-//	 * When we add recipe to inventory more than three recipe
-//	 * Then it will return false and no more recipe will be added
-//	 */
-//	@Test
-//	public void testAddOnlyThreeRecipe() {
-//		coffeeMaker.addRecipe(recipe1);
-//		coffeeMaker.addRecipe(recipe2);
-//		coffeeMaker.addRecipe(recipe3);
-//		assertFalse(coffeeMaker.addRecipe(recipe4));
-//	}
+	/**
+	 * Inventory can have only three recipe
+	 * When we add recipe to inventory more than three recipe
+	 * Then it will return false and no more recipe will be added
+	 */
+	@Test
+	public void testAddOnlyThreeRecipe() {
+		coffeeMaker.addRecipe(recipe1);
+		coffeeMaker.addRecipe(recipe2);
+		coffeeMaker.addRecipe(recipe3);
+		assertFalse(coffeeMaker.addRecipe(recipe4));
+	}
 
 	/**
 	 * Inventory can have only one recipe per name
@@ -125,19 +125,19 @@ public class CoffeeMakerTest {
 		assertFalse(coffeeMaker.addRecipe(recipe1));
 	}
 
-//	/**
-//	 * Inventory can delete by index
-//	 * When we delete recipe in the inventory
-//	 * Then the recipe that have same index will be delete
-//	 */
-//	@Test
-//	public void testDeleteRecipe() {
-//		coffeeMaker.addRecipe(recipe1);
-//		coffeeMaker.addRecipe(recipe2);
-//		coffeeMaker.deleteRecipe(0);
-//		Recipe[] recipes = coffeeMaker.getRecipes();
-//		assertEquals(recipes[0], recipe2);
-//	}
+	/**
+	 * Inventory can delete by index
+	 * When we delete recipe in the inventory
+	 * Then the recipe that have same index will be delete
+	 */
+	@Test
+	public void testDeleteRecipe() {
+		coffeeMaker.addRecipe(recipe1);
+		coffeeMaker.addRecipe(recipe2);
+		coffeeMaker.deleteRecipe(0);
+		Recipe[] recipes = coffeeMaker.getRecipes();
+		assertEquals(recipes[0], recipe2);
+	}
 
 	/**
 	 * Empty recipe book will be return null
@@ -204,9 +204,6 @@ public class CoffeeMakerTest {
 		coffeeMaker.addInventory("4","7","0","9");
 		coffeeMaker.addInventory("1","2","20","1");
 		// When sugar more than 0 it will fail to add inventory
-
-
-
 	}
 
 
