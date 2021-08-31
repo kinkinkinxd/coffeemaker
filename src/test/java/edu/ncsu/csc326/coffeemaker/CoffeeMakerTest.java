@@ -269,11 +269,6 @@ public class CoffeeMakerTest {
 		assertEquals(0, coffeeMaker.makeCoffee(0,100));
 	}
 
-	@Test
-	public void test() {
-		coffeeMaker.addRecipe(recipe3);
-		assertEquals(0,coffeeMaker.makeCoffee(-1,100));
-	}
 	/**
 	 * Given a coffee maker with one valid recipe
 	 * When we make coffee, selecting the valid recipe but the recipe is not
