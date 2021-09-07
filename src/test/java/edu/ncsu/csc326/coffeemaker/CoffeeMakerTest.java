@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
 /**
  * Unit tests for CoffeeMaker class.
  * 
- * @author Sarah Heckman
+ * @author Kittitouch Ingkasompob
  */
 public class CoffeeMakerTest {
 	
@@ -134,9 +134,7 @@ public class CoffeeMakerTest {
 	public void testDeleteRecipe() {
 		coffeeMaker.addRecipe(recipe1);
 		coffeeMaker.addRecipe(recipe2);
-		coffeeMaker.deleteRecipe(0);
-		Recipe[] recipes = coffeeMaker.getRecipes();
-		assertEquals(recipes[0], recipe2);
+		assertEquals("Coffee", coffeeMaker.deleteRecipe(0));
 	}
 
 	/**
@@ -148,7 +146,10 @@ public class CoffeeMakerTest {
 		assertNull(coffeeMaker.deleteRecipe(0));
 	}
 
+
+
 	/**
+	 * Given one recipe in Coffee Maker
 	 * When delete recipe with index out of bound
 	 * It will return null
 	 */
@@ -158,6 +159,8 @@ public class CoffeeMakerTest {
 		String recipeStr = coffeeMaker.deleteRecipe(10);
 		assertNull(recipeStr);
 	}
+
+
 
 	/**
 	 * When edit recipe in recipe lists
@@ -277,5 +280,15 @@ public class CoffeeMakerTest {
 		coffeeMaker.addRecipe(recipe2);
 		assertEquals(100, coffeeMaker.makeCoffee(0,100));
 
+	}
+
+	/**
+	 * Given null recipe of coffee
+	 * Then we get the money back
+	 */
+	@Test
+	public void testMakeCoffeeWithNullRecipe() {
+		int change = coffeeMaker.makeCoffee(0, 100); // point to null recipe
+		assertEquals(100, change);
 	}
 }
