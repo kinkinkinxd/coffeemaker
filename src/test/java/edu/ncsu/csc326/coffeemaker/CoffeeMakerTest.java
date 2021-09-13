@@ -340,7 +340,7 @@ public class CoffeeMakerTest {
 	 */
 	@Test
 	public void testPurchaseBeverageWithNullRecipe() {
-		Recipe [] nullRecipe = new Recipe[] {null};
+		Recipe[] nullRecipe = new Recipe[] {null};
 		when(recipeBook.getRecipes()).thenReturn(nullRecipe);
 		assertEquals(100,coffeeMakerMock.makeCoffee(0,100));
 		assertEquals(50,coffeeMakerMock.makeCoffee(0,50));
