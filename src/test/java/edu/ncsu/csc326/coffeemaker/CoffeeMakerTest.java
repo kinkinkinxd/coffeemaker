@@ -24,7 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
+import static org.mockito.Mockito.*;
 /**
  * Unit tests for CoffeeMaker class.
  * 
@@ -36,12 +36,20 @@ public class CoffeeMakerTest {
 	 * The object under test.
 	 */
 	private CoffeeMaker coffeeMaker;
-	
+
+	/**
+	 * CoffeeMaker with mock RecipeBook
+	 */
+	private  CoffeeMaker coffeeMakerMock;
+
 	// Sample recipes to use in testing.
 	private Recipe recipe1;
 	private Recipe recipe2;
 	private Recipe recipe3;
 	private Recipe recipe4;
+
+	private RecipeBook recipeBook;
+	private Recipe[] recipes;
 
 	/**
 	 * Initializes some recipes to test with and the {@link CoffeeMaker} 
@@ -89,6 +97,11 @@ public class CoffeeMakerTest {
 		recipe4.setAmtMilk("1");
 		recipe4.setAmtSugar("1");
 		recipe4.setPrice("65");
+
+		recipeBook = mock(RecipeBook.class);
+		recipes = new Recipe[]{recipe1, recipe2, recipe3, recipe4};
+		coffeeMakerMock = new CoffeeMaker(recipeBook, new Inventory());
+
 	}
 
 	/**
@@ -290,5 +303,70 @@ public class CoffeeMakerTest {
 	public void testMakeCoffeeWithNullRecipe() {
 		int change = coffeeMaker.makeCoffee(0, 100); // point to null recipe
 		assertEquals(100, change);
+	}
+
+	/**
+	 * Test purchase beverage with mock
+	 */
+	@Test
+	public void testPurchaseBeverageWithMock() {
+		when(recipeBook.getRecipes()).thenReturn(recipes);
+		assertEquals(50, coffeeMakerMock.makeCoffee(0,100));
+		verify(recipeBook, atLeastOnce()).getRecipes();
+	}
+
+	/**
+	 * Test purchase beverage with not enough money with mock
+	 */
+	@Test
+	public void testPurchaseBeverageNotEnoughMoneyWithMock() {
+		when(recipeBook.getRecipes()).thenReturn(recipes);
+		assertEquals(20,coffeeMakerMock.makeCoffee(0,20));
+		verify(recipeBook, atLeastOnce()).getRecipes();
+	}
+
+	/**
+	 * Test purchase beverage with not enough inventory with mock
+	 */
+	@Test
+	public void testPurchaseBeverageNotEnoughInventoryWithMock() {
+		when(recipeBook.getRecipes()).thenReturn(recipes);
+		assertEquals(1000,coffeeMakerMock.makeCoffee(1,1000));
+		verify(recipeBook, atLeastOnce()).getRecipes();
+	}
+
+	/**
+	 * Test purchase beverage with null recipe
+	 */
+	@Test
+	public void testPurchaseBeverageWithNullRecipe() {
+		Recipe [] nullRecipe = new Recipe[] {null};
+		when(recipeBook.getRecipes()).thenReturn(nullRecipe);
+		assertEquals(100,coffeeMakerMock.makeCoffee(0,100));
+		assertEquals(50,coffeeMakerMock.makeCoffee(0,50));
+		verify(recipeBook, times(2)).getRecipes();
+	}
+
+	/**
+	 * Test number of get method called with mock
+	 */
+	@Test
+	public void testNumberOfTimeGetMethodCalled() {
+		recipes[0] = mock(Recipe.class);
+		recipes[1] = mock(Recipe.class);
+		when(recipeBook.getRecipes()).thenReturn(recipes);
+		coffeeMakerMock.makeCoffee(0, 100);
+		// selected recipe
+		verify(recipes[0], atLeastOnce()).getAmtChocolate();
+		verify(recipes[0], atLeastOnce()).getAmtCoffee();
+		verify(recipes[0], atLeastOnce()).getAmtMilk();
+		verify(recipes[0], atLeastOnce()).getAmtSugar();
+		verify(recipes[0], atLeastOnce()).getPrice();
+		// not selected recipe
+		verify(recipes[1], never()).getAmtChocolate();
+		verify(recipes[1], never()).getAmtCoffee();
+		verify(recipes[1], never()).getAmtMilk();
+		verify(recipes[1], never()).getAmtSugar();
+		verify(recipes[1], never()).getPrice();
 	}
 }
